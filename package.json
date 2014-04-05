@@ -1,0 +1,26 @@
+{
+	"name": "nagios-plugin",
+	"description": "Facilitates writing Nagios plugins",
+	"version": "0.0.1",
+	"license": "MIT",
+	"author": {
+		"name": "Fred"
+	},
+	"main": "index",
+	"dependencies": {
+	},
+	"devDependencies": {
+	},
+	"engines": {
+		"node": ">=0.8.0"
+	},
+	"scripts": {
+		"test": "node ./test.js",
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/abbr/nagios-plugin.git"
+	},
+	"homepage": "https://github.com/abbr/nagios-plugin",
+	"keywords": ["nagios"]
+}
