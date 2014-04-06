@@ -1,26 +1,32 @@
 {
-	"name": "nagios-plugin",
-	"description": "Facilitates writing Nagios plugins",
-	"version": "0.0.0",
-	"license": "MIT",
-	"author": {
-		"name": "Fred"
-	},
-	"main": "index",
-	"dependencies": {
-	},
-	"devDependencies": {
-	},
-	"engines": {
-		"node": ">=0.8.0"
-	},
-	"scripts": {
-		"test": "node ./test.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/abbr/nagios-plugin.git"
-	},
-	"homepage": "https://github.com/abbr/nagios-plugin",
-	"keywords": ["nagios"]
+  "name": "nagios-plugin",
+  "description": "Facilitates writing Nagios plugins",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Fred"
+  },
+  "main": "index",
+  "dependencies": {},
+  "devDependencies": {
+    "karma-ng-scenario": "^0.1.0",
+    "grunt": "^0.4.4",
+    "grunt-karma": "^0.8.2",
+    "karma": "^0.12.3",
+    "karma-ng-html2js-preprocessor": "^0.1.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abbr/nagios-plugin.git"
+  },
+  "homepage": "https://github.com/abbr/nagios-plugin",
+  "keywords": [
+    "nagios"
+  ]
 }
