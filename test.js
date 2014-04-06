@@ -1,3 +1,4 @@
 'use strict';
-var t = require('./index.js');
-t.hello();
+var F = require('./index.js');
+var o = new F({a:"pass"});
+process.stdout.write(o.opts.a);
