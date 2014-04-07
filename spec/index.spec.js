@@ -33,6 +33,15 @@ describe('Invoking lib/index.js,', function() {
     unhook();
   });
 
+  it('defined functions',function(){
+    expect(o.addArg).toBeDefined();
+    expect(o.getOpts).toBeDefined();
+    expect(o.setThresholds).toBeDefined();
+    expect(o.checkThreshold).toBeDefined();
+    expect(o.addMessage).toBeDefined();
+    expect(o.addPerfdata).toBeDefined();
+    expect(o.nagiosExit).toBeDefined();
+  });
   describe('passing argument --usage,', function() {
     var oldArgv;
     beforeEach(function() {
