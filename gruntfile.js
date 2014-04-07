@@ -34,4 +34,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', 'shell:test');
+  grunt.registerTask('default', ['jshint','shell:test']);
 }
