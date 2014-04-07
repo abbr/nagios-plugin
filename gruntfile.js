@@ -1,51 +1,37 @@
-module.exports = function (grunt) {
-	'use strict';
-    // Project configuration
-    grunt.initConfig({
-        // Task configuration
-        jshint: {
-            options: {
-                node: true,
-                curly: true,
-                eqeqeq: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                sub: true,
-                undef: true,
-                unused: true,
-                boss: true,
-                eqnull: true,
-                globals: {}
-            },
-            gruntfile: {
-                src: 'gruntfile.js'
-            },
-            lib_test: {
-                src: ['lib/**/*.js', 'test/**/*.js']
-            }
-        },
-        nodeunit: {
-            files: ['test/**/*_test.js']
-        },
-        watch: {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
-            lib_test: {
-                files: '<%= jshint.lib_test.src %>',
-                tasks: ['jshint:lib_test', 'nodeunit']
-            }
-        }
-    });
+module.exports = function(grunt) {
+  // Load grunt tasks automatically
+  require('load-grunt-tasks')(grunt);
 
-    // These plugins provide necessary tasks
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.initConfig({
+    watch: {
+      js: {
+        files: ['lib/**/*.js', 'spec/**/*.spec.js'],
+        tasks: ['test']
+      }
+    },
 
-    // Default task
-    grunt.registerTask('default', ['jshint', 'nodeunit']);
-};
+    // Make sure code styles are up to par and there are no obvious mistakes
+    jshint : {
+      options : {
+        jshintrc : '.jshintrc',
+        reporter : require('jshint-stylish')
+      },
+      all : ['lib/{,*/}*.js'],
+      test : {
+        options : {
+          jshintrc : 'spec/.jshintrc'
+        },
+        src : ['spec/{,*/}*.js']
+      }
+    },
+    
+    shell: {
+      test: {
+        options: { stdout: true },
+        command: 'jasmine-node spec/'
+      }
+    }
+  });
+
+  grunt.registerTask('test', 'shell:test');
+}
