@@ -15,7 +15,7 @@ function hookStdout(callback) {
   };
 }
 
-describe('Invoking lib/index.js,', function() {
+describe('lib/index.js,', function() {
   var F;
   F = require('../lib/index');
   var o = new F({
@@ -33,7 +33,7 @@ describe('Invoking lib/index.js,', function() {
     unhook();
   });
 
-  it('defined functions',function(){
+  it('should define functions',function(){
     expect(o.addArg).toBeDefined();
     expect(o.getOpts).toBeDefined();
     expect(o.setThresholds).toBeDefined();
@@ -42,7 +42,7 @@ describe('Invoking lib/index.js,', function() {
     expect(o.addPerfdata).toBeDefined();
     expect(o.nagiosExit).toBeDefined();
   });
-  describe('passing argument --usage,', function() {
+  describe('invoked with argument --usage,', function() {
     var oldArgv;
     beforeEach(function() {
       oldArgv = process.argv;
@@ -51,13 +51,13 @@ describe('Invoking lib/index.js,', function() {
     afterEach(function() {
       process.argv = oldArgv;
     });
-    it('calling method getOpts()', function() {
+    it('calls method getOpts()', function() {
       o.getOpts();
       expect(outStr).toContain('Usage:');
     });
   });
 
-  describe('passing argument --help,', function() {
+  describe('invoked with argument --help,', function() {
     var oldArgv;
     beforeEach(function() {
       oldArgv = process.argv;
@@ -66,7 +66,7 @@ describe('Invoking lib/index.js,', function() {
     afterEach(function() {
       process.argv = oldArgv;
     });
-    it('calling method getOpts()', function() {
+    it('calls method getOpts()', function() {
       o.getOpts();
       expect(outStr).toContain('Print detailed help screen');
     });
