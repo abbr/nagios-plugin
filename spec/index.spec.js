@@ -79,4 +79,15 @@ describe('lib/index.js,', function() {
 			expect(outStr).toContain('my argument');
 		});
 	});
+
+	describe('invoked with no arguments,', function() {
+		it('calls method setThresholds()', function() {
+			o.setThresholds({
+				'critical' : 60,
+				'warning' : 15
+			});
+			expect(o.threshold.critical).toBe(60);
+		});
+	});
+
 });
