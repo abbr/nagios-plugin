@@ -70,5 +70,13 @@ describe('lib/index.js,', function() {
       o.getOpts();
       expect(outStr).toContain('Print detailed help screen');
     });
+    it('calls method addArg() then getOpts()', function() {
+    	o.addArg({
+    		'spec': 'm|myArg',
+    		'help': 'my argument'
+    	});
+      o.getOpts();
+      expect(outStr).toContain('my argument');
+    });
   });
 });
