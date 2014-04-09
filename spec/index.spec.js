@@ -94,4 +94,12 @@ describe('lib/index.js,', function() {
 		});
 	});
 
+	it('calls method checkThreshold()', function() {
+		o.setThresholds({
+			'critical' : 60,
+			'warning' : 15
+		});
+		var state = o.checkThreshold(61);
+		expect(state).toBe(o.states.CRITICAL);
+	});
 });
