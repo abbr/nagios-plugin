@@ -39,6 +39,7 @@ describe('lib/index.js,', function() {
 		expect(o.setThresholds).toBeDefined();
 		expect(o.checkThreshold).toBeDefined();
 		expect(o.addMessage).toBeDefined();
+		expect(o.checkMessages).toBeDefined();
 		expect(o.addPerfdata).toBeDefined();
 		expect(o.nagiosExit).toBeDefined();
 	});
@@ -101,5 +102,10 @@ describe('lib/index.js,', function() {
 		});
 		var state = o.checkThreshold(61);
 		expect(state).toBe(o.states.CRITICAL);
+	});
+	it('calls methods addMessage() then checkMessages()', function() {
+		o.addMessage(o.states.CRITICAL,'sky falling');
+		var messageObj = o.checkMessages();
+		expect(messageObj.message).toContain('sky falling');
 	});
 });
