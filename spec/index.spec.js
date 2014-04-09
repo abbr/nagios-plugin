@@ -81,12 +81,16 @@ describe('lib/index.js,', function() {
 	});
 
 	describe('invoked with no arguments,', function() {
-		it('calls method setThresholds()', function() {
+		it('calls method setThresholds() twice', function() {
 			o.setThresholds({
 				'critical' : 60,
 				'warning' : 15
 			});
+			o.setThresholds({
+				'warning' : 16
+			});
 			expect(o.threshold.critical).toBe(60);
+			expect(o.threshold.warning).toBe(16);
 		});
 	});
 
