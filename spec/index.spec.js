@@ -1,12 +1,15 @@
 'use strict';
-Array.prototype.indexOfObject = function(property, value) {
-	for ( var i = 0, len = this.length; i < len; i++) {
-		if (this[i][property] === value) {
-			return i;
+Object.defineProperty(Array.prototype, 'indexOfObject', {
+	enumerable : false,
+	value : function(property, value) {
+		for ( var i = 0, len = this.length; i < len; i++) {
+			if (this[i][property] === value) {
+				return i;
+			}
 		}
+		return -1;
 	}
-	return -1;
-};
+});
 
 function hookStdout(callback) {
 	var oldWrite = process.stdout.write;
