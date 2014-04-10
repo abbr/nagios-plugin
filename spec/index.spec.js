@@ -52,7 +52,7 @@ describe('lib/index.js,', function() {
 		expect(o.addMessage).toBeDefined();
 		expect(o.checkMessages).toBeDefined();
 		expect(o.addPerfData).toBeDefined();
-		expect(o.nagiosExit).toBeDefined();
+		expect(o.getRetureMessage).toBeDefined();
 	});
 	describe('invoked with argument --usage,', function() {
 		var oldArgv;
@@ -119,20 +119,23 @@ describe('lib/index.js,', function() {
 		var messageObj = o.checkMessages();
 		expect(messageObj.message).toContain('sky falling');
 	});
-	it('calls methods addPerfdata()',
-			function() {
-				o.setThresholds({
-					'critical' : 60,
-					'warning' : 15
-				});
-				o.addPerfData({
-					label : 'time',
-					value : 15,
-					uom : 's',
-					threshold : o.threshold
-				});
-				expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe(
-						's');
-			});
-
+	describe('calls methods setThresholds() then addPerfdata()', function() {
+		o.setThresholds({
+			'critical' : 60,
+			'warning' : 15
+		});
+		o.addPerfData({
+			label : 'time',
+			value : 15,
+			uom : 's',
+			threshold : o.threshold
+		});
+		it('', function() {
+			expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe('s');
+		});
+		it('then getRetureMessage()', function() {
+			var msg = o.getRetureMessage('failure');
+			expect(msg).toContain('failure|time=15s;15;60');
+		});
+	});
 });
