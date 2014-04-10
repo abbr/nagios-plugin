@@ -1,4 +1,12 @@
 'use strict';
+Array.prototype.indexOfObject = function(property, value) {
+	for ( var i = 0, len = this.length; i < len; i++) {
+		if (this[i][property] === value) {
+			return i;
+		}
+	}
+	return -1;
+};
 
 function hookStdout(callback) {
 	var oldWrite = process.stdout.write;
@@ -40,7 +48,7 @@ describe('lib/index.js,', function() {
 		expect(o.checkThreshold).toBeDefined();
 		expect(o.addMessage).toBeDefined();
 		expect(o.checkMessages).toBeDefined();
-		expect(o.addPerfdata).toBeDefined();
+		expect(o.addPerfData).toBeDefined();
 		expect(o.nagiosExit).toBeDefined();
 	});
 	describe('invoked with argument --usage,', function() {
@@ -104,8 +112,24 @@ describe('lib/index.js,', function() {
 		expect(state).toBe(o.states.CRITICAL);
 	});
 	it('calls methods addMessage() then checkMessages()', function() {
-		o.addMessage(o.states.CRITICAL,'sky falling');
+		o.addMessage(o.states.CRITICAL, 'sky falling');
 		var messageObj = o.checkMessages();
 		expect(messageObj.message).toContain('sky falling');
 	});
+	it('calls methods addPerfdata()',
+			function() {
+				o.setThresholds({
+					'critical' : 60,
+					'warning' : 15
+				});
+				o.addPerfData({
+					label : 'time',
+					value : 15,
+					uom : 's',
+					threshold : o.threshold
+				});
+				expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe(
+						's');
+			});
+
 });
