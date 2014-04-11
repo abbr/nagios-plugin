@@ -53,6 +53,7 @@ describe('lib/index.js,', function() {
 		expect(o.checkMessages).toBeDefined();
 		expect(o.addPerfData).toBeDefined();
 		expect(o.getRetureMessage).toBeDefined();
+		expect(o.nagiosExit).toBeDefined();
 	});
 	describe('invoked with argument --usage,', function() {
 		var oldArgv;
@@ -138,9 +139,17 @@ describe('lib/index.js,', function() {
 			expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe(
 					's');
 		});
-		it('then getRetureMessage()', function() {
+		describe('then getRetureMessage()', function() {
 			var msg = o.getRetureMessage(2, 'failure');
-			expect(msg).toContain('CRITICAL - failure|time=15s;15;60');
+			it('', function() {
+				expect(msg).toContain('CRITICAL - failure|time=15s;15;60');
+			});
+			it('then nagiosExit()', function() {
+				spyOn(process, 'exit');
+				o.nagiosExit(2, 'failure');
+				expect(process.exit).toHaveBeenCalledWith(2);
+				expect(outStr.trim()).toBe(msg);
+			});
 		});
 	});
 });
