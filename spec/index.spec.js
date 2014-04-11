@@ -131,10 +131,11 @@ describe('lib/index.js,', function() {
 			threshold : o.threshold
 		});
 		it('', function() {
-			expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe('s');
+			expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe(
+					's');
 		});
 		it('then getRetureMessage()', function() {
-			var msg = o.getRetureMessage('failure');
+			var msg = o.getRetureMessage(2, 'failure');
 			expect(msg).toContain('failure|time=15s;15;60');
 		});
 	});
