@@ -136,7 +136,7 @@ describe('lib/index.js,', function() {
 		});
 		it('then getRetureMessage()', function() {
 			var msg = o.getRetureMessage(2, 'failure');
-			expect(msg).toContain('failure|time=15s;15;60');
+			expect(msg).toContain('CRITICAL - failure|time=15s;15;60');
 		});
 	});
 });
