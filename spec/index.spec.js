@@ -64,8 +64,10 @@ describe('lib/index.js,', function() {
 			process.argv = oldArgv;
 		});
 		it('calls method getOpts()', function() {
+			spyOn(process, 'exit');
 			o.getOpts();
 			expect(outStr).toContain('Usage:');
+			expect(process.exit).toHaveBeenCalledWith(0);
 		});
 	});
 
@@ -74,8 +76,10 @@ describe('lib/index.js,', function() {
 		beforeEach(function() {
 			oldArgv = process.argv;
 			process.argv = [ 'node', __filename, '--help' ];
+			spyOn(process, 'exit');
 		});
 		afterEach(function() {
+			expect(process.exit).toHaveBeenCalledWith(0);
 			process.argv = oldArgv;
 		});
 		it('calls method getOpts()', function() {
