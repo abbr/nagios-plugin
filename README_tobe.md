@@ -93,6 +93,8 @@ $ node test.js --wget="http://www.google.com"
 WGET_HTTP WARNING - 11775 bytes in 0.617 seconds response time.|time=0.617s;0.2;2;; size=11775B;;;;
 $ node test.js --wget="http://www.google.com" --match=unicorn
 WGET_HTTP CRITICAL - unicorn not found|time=0.471s;0.2;2;; size=11763B;;;;
+$ node test.js                                               
+missing argument --wget=<STRING>
 $ node test.js --usage                       
 Usage: node test.js [-c|--critical=<STRING>] [-h|--help] [-m|--match=<STRING>] [-?|--usage] [-v|--verbo
 se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
