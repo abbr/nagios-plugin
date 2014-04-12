@@ -10,6 +10,8 @@ Toolkit facilitates writing Nagios plugins, mimic Perl [Nagios::Plugin](http://s
 * Option to auto forbid unexpected arguments
 
 ## Annotated Working Example
+Following script implements a plugin to use external program `wget` to check a web site. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to first IP failed at TCP socket layer.
+
 test.js:
 ```
 'use strict';
@@ -121,6 +123,16 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 
 ## API
 * addArg
+
+	```
+	addArg({
+	  spec:'m|myArg<=...>',
+	  help: 'help message',
+	  required: true
+	})
+	```
+	* spec may contain multiple arguments aliasing to each other. Following *nix convention single character arguments are supplied in the program argument with prefix - and multi character arguments are prefixed with --. In addition, multiple single character arguments can be concatenated with one - prefix.
+	* spec takes optional value type `<=...>` such as `=<STRING>` to indicate the argement expects a value rather than just a flag
 * getOpts
 * get
 * setThresholds
