@@ -55,6 +55,7 @@ describe('lib/index.js', function() {
 		expect(o.addPerfData).toBeDefined();
 		expect(o.getRetureMessage).toBeDefined();
 		expect(o.nagiosExit).toBeDefined();
+		expect(o.get).toBeDefined();
 	});
 	describe('invoked with argument --usage,', function() {
 		var oldArgv;
@@ -164,7 +165,41 @@ describe('lib/index.js', function() {
 					});
 					o.getOpts();
 					expect(process.exit).toHaveBeenCalledWith(3);
-					expect(outStr).toContain('missing --myArg');
+					expect(outStr).toContain('missing argument --myArg');
 				});
+	});
+	describe('invoked with a valid argument,', function() {
+		var oldArgv;
+		beforeEach(function() {
+			oldArgv = process.argv;
+			process.argv = [ 'node', __filename, '-m', 3 ];
+		});
+		afterEach(function() {
+			process.argv = oldArgv;
+		});
+		it('calls method addArg() then getOpts()', function() {
+			o.addArg({
+				'spec' : 'm|myArg=<INTEGER>',
+				'help' : 'my argument'
+			});
+			o.getOpts();
+			expect(o.get('myArg')).toBe('3');
+		});
+	});
+
+	describe('invoked with an invalid argument,', function() {
+		var oldArgv;
+		beforeEach(function() {
+			oldArgv = process.argv;
+			process.argv = [ 'node', __filename, '-m', 3 ];
+		});
+		afterEach(function() {
+			process.argv = oldArgv;
+		});
+		it('calls method getOpts()', function() {
+			o.getOpts();
+			expect(process.exit).toHaveBeenCalledWith(3);
+			expect(outStr).toContain('invalid argument -m');
+		});
 	});
 });
