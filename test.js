@@ -1,12 +1,11 @@
 'use strict';
 var F = require('./lib/index.js');
 var o = new F({
-	a : "pass",
-	usage : "sdf"
+	shortName : 'wget_http'
 });
 o.addArg({
-	'spec' : 'm|myArg',
-	'help' : 'my argument',
+	'spec' : 'wget=<STRING>',
+	'help' : 'arguments passed to wget',
 	'required' : true
 });
 o.getOpts();
