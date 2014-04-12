@@ -33,7 +33,8 @@ describe('lib/index.js', function() {
 	beforeEach(function() {
 		o = new F({
 			a : 'pass',
-			usage : 'Usage: ...'
+			usage : 'Usage: ...',
+			version: '0.0.1'
 		});
 		outStr = '';
 		unhook = hookStdout(function(string) {
@@ -57,6 +58,23 @@ describe('lib/index.js', function() {
 		expect(o.nagiosExit).toBeDefined();
 		expect(o.get).toBeDefined();
 	});
+
+	describe('invoked with argument --version,', function() {
+		var oldArgv;
+		beforeEach(function() {
+			oldArgv = process.argv;
+			process.argv = [ 'node', __filename, '--version' ];
+		});
+		afterEach(function() {
+			process.argv = oldArgv;
+		});
+		it('calls method getOpts()', function() {
+			o.getOpts();
+			expect(outStr).toContain('0.0.1');
+			expect(process.exit).toHaveBeenCalledWith(0);
+		});
+	});
+
 	describe('invoked with argument --usage,', function() {
 		var oldArgv;
 		beforeEach(function() {
@@ -200,6 +218,12 @@ describe('lib/index.js', function() {
 			o.getOpts();
 			expect(process.exit).toHaveBeenCalledWith(3);
 			expect(outStr).toContain('invalid argument -m');
+		});
+		it('sets allowUnexpectedArgs then calls method getOpts()', function() {
+			o.opts.allowUnexpectedArgs = true;
+			o.getOpts();
+			expect(process.exit).not.toHaveBeenCalledWith(3);
+			delete o.opts.allowUnexpectedArgs;
 		});
 	});
 });
