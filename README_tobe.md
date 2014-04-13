@@ -10,7 +10,7 @@ Toolkit facilitates writing Nagios plugins in Node.js. It's a mimic of Perl [Nag
 * Option to auto forbid unexpected arguments
 
 ## Annotated Working Example
-Following script implements a plugin to use external program `wget` to check a web site. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to currently chosen IP failed at TCP socket layer.
+Following script implements a plugin to check web sites using external program `wget`. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to currently chosen IP failed at TCP socket layer.
 
 test.js:
 ```
