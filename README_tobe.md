@@ -177,21 +177,32 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	6. report missing mandatory arguments and quit if found
 * get
   
-	get the value of a spec
 	```
 	var value = get(name)
 	```
-	
+	get the value of a spec
 	* `get` must be called after `getOpts`
 	* the value returned is:
 		* value supplied in the argument if available
 		* `true` if spec is a flag (no value)
 		* `undefined` if spec is not supplied in the argument
-	* if allowUnexpectedArgs is true, unexpected arguments are not retrievable by `get`
+	* if allowUnexpectedArgs is true, unexpected arguments are not retrievable by `get`. You must parse process.argv yourself.
 	
 
 * setThresholds
+	```
+	setThresholds({
+		'critical' : ...,
+		'warning' : ...
+	});
+	```
+	See [Nagios Plugin Development Guidelines](https://nagios-plugins.org/doc/guidelines.html#THRESHOLDFORMAT) for valid threshold formats
 * checkThreshold
+	```
+	var state = o.checkThreshold(actualData);
+
+	```
+	check actualData against predefined threshold. Returns the matching state.
 * addMessage
 * checkMessages
 * addPerfData
