@@ -155,7 +155,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 * addArg
 
 	```
-	addArg({
+	o.addArg({
 	  spec:'m|myArg<=...>',
 	  help: 'help message',
 	  required: true
@@ -165,7 +165,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	* spec takes optional value type `<=...>` such as `=<STRING>` to indicate the argement expects a value rather than just a flag
 * getOpts
 	```
-	getOpts()
+	o.getOpts()
 	```
 
 	This methods should be called after all `addArg`. It performs following actions
@@ -178,7 +178,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 * get
   
 	```
-	var value = get(name)
+	var value = o.get(name)
 	```
 	get the value of a spec
 	* `get` must be called after `getOpts`
@@ -191,21 +191,44 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 
 * setThresholds
 	```
-	setThresholds({
+	o.setThresholds({
 		'critical' : ...,
 		'warning' : ...
 	});
 	```
 	See [Nagios Plugin Development Guidelines](https://nagios-plugins.org/doc/guidelines.html#THRESHOLDFORMAT) for valid threshold formats
+	* There is only one critical and warning threshold set. If `setThresholds` is called multiple times, the result is concatenated and latter settings take precedence.
 * checkThreshold
+
 	```
 	var state = o.checkThreshold(actualData);
-
 	```
 	check actualData against predefined threshold. Returns the matching state.
 * addMessage
+
+	```
+	o.addMessage(state, 'msg');
+	```
+	Add message to the corresponding state.
 * checkMessages
+
+	```
+	var messageObj = o.checkMessages();
+	```
+	`checkMessages` concatenates messages added with `addMessage` by state and returns the {state, message} pair of the most severe state with message populated in this precedence: critical, warning or OK.
 * addPerfData
+
+	```
+	o.addPerfData({
+		label : "time",
+		value : diff,
+		uom : "s",
+		threshold : o.threshold,
+		min : 0,
+		max : 100
+	})	
+	```
+	See [Nagios Plugin Development Guidelines](https://nagios-plugins.org/doc/guidelines.html#AEN200) for valid UOMs.
 * getRetureMessage
 * nagiosExit
 
