@@ -1,7 +1,7 @@
 nagios-plugin
 =============
 
-Toolkit facilitates writing Nagios plugins, mimic Perl [Nagios::Plugin](http://search.cpan.org/~tonvoon/Nagios-Plugin-0.36/lib/Nagios/Plugin.pm) module.
+Toolkit facilitates writing Nagios plugins in Node.js. It's a mimic of Perl [Nagios::Plugin](http://search.cpan.org/~tonvoon/Nagios-Plugin-0.36/lib/Nagios/Plugin.pm) module.
 
 ## Features
 * Auto generate CLI --help, --usage, --version outputs
