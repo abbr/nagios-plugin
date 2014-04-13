@@ -25,7 +25,7 @@ o.addArg({
 	'help' : 'Critical threshold'
 });
 // parse and validate program arguments
-o.getOpts();
+o.parseArgs();
 // set monitor thresholds
 o.setThresholds({
 	'critical' : o.get('critical') || 2,

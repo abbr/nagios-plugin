@@ -41,7 +41,7 @@ o.addArg({
 	'help' : 'Critical threshold'
 });
 // parse and validate arguments
-o.getOpts();
+o.parseArgs();
 // set monitor thresholds
 o.setThresholds({
 	'critical' : o.get('critical') || 2,
@@ -131,7 +131,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 		usage: 'Usage: ...'
 	});
 * shortName is used in output, if omitted by default it is set to JavaScript file name launched by program
-* if allowUnexpectedArgs is true, unexpected arguments won't cause process termination when calling `getOpts()`
+* if allowUnexpectedArgs is true, unexpected arguments won't cause process termination when calling `parseArgs()`
 * usage is auto-generated if omitted.
 
 ### properties
@@ -162,9 +162,9 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	```
 	* spec may contain multiple arguments aliasing to each other. Following *nix convention single character arguments are supplied in the argument with prefix - and multi character arguments are prefixed with --. In addition, multiple single character arguments can be concatenated with one - prefix.
 	* spec takes optional value type `<=...>` such as `=<STRING>` to indicate the argement expects a value rather than just a flag
-* getOpts
+* parseArgs
 	```
-	o.getOpts()
+	o.parseArgs()
 	```
 
 	This methods should be called after all `addArg`. It performs following actions
@@ -180,7 +180,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	var value = o.get(name)
 	```
 	get the value of a spec
-	* `get` must be called after `getOpts`
+	* `get` must be called after `parseArgs`
 	* the value returned is:
 		* value supplied in the argument if available
 		* `true` if spec is a flag (no value)

@@ -48,7 +48,7 @@ describe('lib/index.js', function() {
 
 	it('should define functions', function() {
 		expect(o.addArg).toBeDefined();
-		expect(o.getOpts).toBeDefined();
+		expect(o.parseArgs).toBeDefined();
 		expect(o.setThresholds).toBeDefined();
 		expect(o.checkThreshold).toBeDefined();
 		expect(o.addMessage).toBeDefined();
@@ -68,8 +68,8 @@ describe('lib/index.js', function() {
 		afterEach(function() {
 			process.argv = oldArgv;
 		});
-		it('calls method getOpts()', function() {
-			o.getOpts();
+		it('calls method parseArgs()', function() {
+			o.parseArgs();
 			expect(outStr).toContain('0.0.1');
 			expect(process.exit).toHaveBeenCalledWith(0);
 		});
@@ -84,8 +84,8 @@ describe('lib/index.js', function() {
 		afterEach(function() {
 			process.argv = oldArgv;
 		});
-		it('calls method getOpts()', function() {
-			o.getOpts();
+		it('calls method parseArgs()', function() {
+			o.parseArgs();
 			expect(outStr).toContain('Usage:');
 			expect(process.exit).toHaveBeenCalledWith(0);
 		});
@@ -101,16 +101,16 @@ describe('lib/index.js', function() {
 			expect(process.exit).toHaveBeenCalledWith(0);
 			process.argv = oldArgv;
 		});
-		it('calls method getOpts()', function() {
-			o.getOpts();
+		it('calls method parseArgs()', function() {
+			o.parseArgs();
 			expect(outStr).toContain('Print detailed help screen');
 		});
-		it('calls method addArg() then getOpts()', function() {
+		it('calls method addArg() then parseArgs()', function() {
 			o.addArg({
 				'spec' : 'm|myArg',
 				'help' : 'my argument'
 			});
-			o.getOpts();
+			o.parseArgs();
 			expect(outStr).toContain('my argument');
 		});
 	});
@@ -174,14 +174,14 @@ describe('lib/index.js', function() {
 				});
 			});
 		});
-		it('calls method addArg() with a required argument then getOpts()',
+		it('calls method addArg() with a required argument then parseArgs()',
 				function() {
 					o.addArg({
 						'spec' : 'm|myArg',
 						'help' : 'my argument',
 						'required' : true
 					});
-					o.getOpts();
+					o.parseArgs();
 					expect(process.exit).toHaveBeenCalledWith(3);
 					expect(outStr).toContain('missing argument --myArg');
 				});
@@ -195,12 +195,12 @@ describe('lib/index.js', function() {
 		afterEach(function() {
 			process.argv = oldArgv;
 		});
-		it('calls method addArg() then getOpts()', function() {
+		it('calls method addArg() then parseArgs()', function() {
 			o.addArg({
 				'spec' : 'm|myArg=<INTEGER>',
 				'help' : 'my argument'
 			});
-			o.getOpts();
+			o.parseArgs();
 			expect(o.get('myArg')).toBe('3');
 		});
 	});
@@ -214,14 +214,14 @@ describe('lib/index.js', function() {
 		afterEach(function() {
 			process.argv = oldArgv;
 		});
-		it('calls method getOpts()', function() {
-			o.getOpts();
+		it('calls method parseArgs()', function() {
+			o.parseArgs();
 			expect(process.exit).toHaveBeenCalledWith(3);
 			expect(outStr).toContain('invalid argument -m');
 		});
-		it('sets allowUnexpectedArgs then calls method getOpts()', function() {
+		it('sets allowUnexpectedArgs then calls method parseArgs()', function() {
 			o.opts.allowUnexpectedArgs = true;
-			o.getOpts();
+			o.parseArgs();
 			expect(process.exit).not.toHaveBeenCalledWith(3);
 			delete o.opts.allowUnexpectedArgs;
 		});
