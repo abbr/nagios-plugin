@@ -92,9 +92,9 @@ exec('wget -qO- ' + o.get('wget'), function(error, stdout, stderr) {
 Outputs
 ```
 $ node test.js --wget="http://www.google.com"
-WGET_HTTP WARNING - 11775 bytes in 0.617 seconds response time.|time=0.617s;0.2;2;; size=11775B;;;;
+WGET_HTTP WARNING - 11815 bytes in 0.571 seconds response time.|time=0.571s;0.2;2;0; size=11815B;;;0;
 $ node test.js --wget="http://www.google.com" --match=unicorn
-WGET_HTTP CRITICAL - unicorn not found|time=0.471s;0.2;2;; size=11763B;;;;
+WGET_HTTP CRITICAL - unicorn not found|time=0.467s;0.2;2;0; size=11763B;;;0;
 $ node test.js                                               
 missing argument --wget=<STRING>
 $ node test.js --usage                       
