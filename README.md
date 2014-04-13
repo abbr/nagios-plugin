@@ -123,15 +123,14 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 
 ## API
 ### constructor
-	```
+
 	var o = new Plugin({
 		shortName : 'wget_http',
 		version : '0.0.1',
 		allowUnexpectedArgs: true,
 		usage: 'Usage: ...'
 	});
-	```
-* shortName is used in output, if omitted by default it is set to JavaScript file name
+* shortName is used in output, if omitted by default it is set to JavaScript file name launched by program
 * if allowUnexpectedArgs is true, unexpected arguments won't cause process termination when calling `getOpts()`
 * usage is auto-generated if omitted.
 
