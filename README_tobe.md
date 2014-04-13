@@ -229,8 +229,18 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	})	
 	```
 	See [Nagios Plugin Development Guidelines](https://nagios-plugins.org/doc/guidelines.html#AEN200) for valid UOMs.
-* getRetureMessage
 * nagiosExit
+
+	```
+	o.nagiosExit(state, message);
+	```
+	Generates one line output conforming to [Nagios expected format](https://nagios-plugins.org/doc/guidelines.html#PLUGOUTPUT) and exit the program with state as return code. State and message should come from `checkMessages` output.
+* getReturnMessage
+
+	```
+	var msg = o.getReturnMessage(state, message);
+	```
+	If you want the output string but don't want to quit the program by calling `nagiosExit`, you can call `getReturnMessage` with same parameters as `nagiosExit`. Internally `nagiosExit` calls `getReturnMessage`.
 
 ## Install
 `npm install nagios-plugin`
