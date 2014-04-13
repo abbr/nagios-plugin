@@ -34,7 +34,7 @@ describe('lib/index.js', function() {
 		o = new F({
 			a : 'pass',
 			usage : 'Usage: ...',
-			version: '0.0.1'
+			version : '0.0.1'
 		});
 		outStr = '';
 		unhook = hookStdout(function(string) {
