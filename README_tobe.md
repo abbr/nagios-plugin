@@ -5,7 +5,7 @@ Toolkit facilitates writing Nagios plugins, mimic Perl [Nagios::Plugin](http://s
 
 ## Features
 * Auto generate CLI --help, --usage, --version outputs
-* Auto parse program arguments into JavaScript objects
+* Auto parse arguments into JavaScript objects
 * Auto check missing mandatory arguments
 * Option to auto forbid unexpected arguments
 
@@ -40,7 +40,7 @@ o.addArg({
 	'spec' : 'c|critical=<STRING>',
 	'help' : 'Critical threshold'
 });
-// parse and validate program arguments
+// parse and validate arguments
 o.getOpts();
 // set monitor thresholds
 o.setThresholds({
@@ -62,7 +62,7 @@ exec('wget -qO- ' + o.get('wget'), function(error, stdout, stderr) {
 	// in the same state are concatenated at output
 	o.addMessage(state, stdout.length + ' bytes in ' + diff
 			+ ' seconds response time.');
-	// use get() method to retrieved parsed program arguments
+	// use get() method to retrieved parsed arguments
 	if (o.get('match') && stdout.indexOf(o.get('match')) === -1) {
 		o.addMessage(o.states.CRITICAL, o.get('match') + ' not found');
 	}
@@ -122,6 +122,36 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 ```
 
 ## API
+### constructor
+	```
+	var o = new Plugin({
+		shortName : 'wget_http',
+		version : '0.0.1',
+		allowUnexpectedArgs: true,
+		usage: 'Usage: ...'
+	});
+	```
+* shortName is used in output, if omitted by default it is set to JavaScript file name
+* if allowUnexpectedArgs is true, unexpected arguments won't cause process termination when calling `getOpts()`
+* usage is auto-generated if omitted.
+
+### properties
+* `opts`
+
+  	constructor options (see [constructor](#constructor) above).
+* `states`
+
+	enum
+	```
+	{
+		OK : 0,
+		WARNING : 1,
+		CRITICAL : 2,
+		UNKNOWN : 3
+	}
+	```
+
+### methods
 * addArg
 
 	```
@@ -131,9 +161,20 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	  required: true
 	})
 	```
-	* spec may contain multiple arguments aliasing to each other. Following *nix convention single character arguments are supplied in the program argument with prefix - and multi character arguments are prefixed with --. In addition, multiple single character arguments can be concatenated with one - prefix.
+	* spec may contain multiple arguments aliasing to each other. Following *nix convention single character arguments are supplied in the argument with prefix - and multi character arguments are prefixed with --. In addition, multiple single character arguments can be concatenated with one - prefix.
 	* spec takes optional value type `<=...>` such as `=<STRING>` to indicate the argement expects a value rather than just a flag
 * getOpts
+	```
+	getOpts()
+	```
+
+	This methods should be called after all `addArg`. It performs following actions
+	1. parse and sort all specs supplied with `addArg`
+	2. compose usage string if not supplied
+	3. parse arguments
+	4. output version, usage, or help information and quit if asked so
+	5. if allowUnexpectedArgs is not true, report unexpected arguments and quit if found
+	6. report missing mandatory arguments and quit if found
 * get
 * setThresholds
 * checkThreshold
