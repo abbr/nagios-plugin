@@ -10,7 +10,7 @@ Toolkit facilitates writing Nagios plugins, mimic Perl [Nagios::Plugin](http://s
 * Option to auto forbid unexpected arguments
 
 ## Annotated Working Example
-Following script implements a plugin to use external program `wget` to check a web site. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to first IP failed at TCP socket layer.
+Following script implements a plugin to use external program `wget` to check a web site. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to currently chosen IP failed at TCP socket layer.
 
 test.js:
 ```
@@ -176,6 +176,20 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	5. if allowUnexpectedArgs is not true, report unexpected arguments and quit if found
 	6. report missing mandatory arguments and quit if found
 * get
+  
+	get the value of a spec
+	```
+	var value = get(name)
+	```
+	
+	* `get` must be called after `getOpts`
+	* the value returned is:
+		* value supplied in the argument if available
+		* `true` if spec is a flag (no value)
+		* `undefined` if spec is not supplied in the argument
+	* if allowUnexpectedArgs is true, unexpected arguments are not retrievable by `get`
+	
+
 * setThresholds
 * checkThreshold
 * addMessage
