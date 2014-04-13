@@ -54,7 +54,7 @@ describe('lib/index.js', function() {
 		expect(o.addMessage).toBeDefined();
 		expect(o.checkMessages).toBeDefined();
 		expect(o.addPerfData).toBeDefined();
-		expect(o.getRetureMessage).toBeDefined();
+		expect(o.getReturnMessage).toBeDefined();
 		expect(o.nagiosExit).toBeDefined();
 		expect(o.get).toBeDefined();
 	});
@@ -159,10 +159,10 @@ describe('lib/index.js', function() {
 				expect(o.perfData[o.perfData.indexOfObject('label', 'time')].uom).toBe(
 						's');
 			});
-			describe('then getRetureMessage()', function() {
+			describe('then getReturnMessage()', function() {
 				var msg;
 				beforeEach(function() {
-					msg = o.getRetureMessage(2, 'failure');
+					msg = o.getReturnMessage(2, 'failure');
 				});
 				it('', function() {
 					expect(msg).toContain('CRITICAL - failure|time=15s;15;60');
