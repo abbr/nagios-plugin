@@ -197,7 +197,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 	});
 	```
 	See [Nagios Plugin Development Guidelines](https://nagios-plugins.org/doc/guidelines.html#THRESHOLDFORMAT) for valid threshold formats
-	* There is only one critical and warning threshold set. If `setThresholds` is called multiple times, the result is concatenated and latter settings take precedence.
+	* There is only one critical and warning threshold set. If `setThresholds` is called multiple times, the result is concatenated and latter settings overwrites previous ones.
 * checkThreshold
 
 	```
