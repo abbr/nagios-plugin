@@ -170,7 +170,7 @@ se] [-V|--version] [-w|--warning=<STRING>] --wget=<STRING>
 
 	This methods should be called after all `addArg`. It performs following actions
 	1. parse and sort all specs supplied with `addArg`
-	2. compose usage string if not supplied
+	2. compose usage string from specs if not supplied
 	3. parse arguments
 	4. output version, usage, or help information and quit if asked so
 	5. if allowUnexpectedArgs is not true, report unexpected arguments and quit if found
