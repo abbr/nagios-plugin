@@ -47,8 +47,6 @@ describe('lib/index.js', function() {
 	});
 
 	it('should define functions', function() {
-		expect(o.addArg).toBeDefined();
-		expect(o.parseArgs).toBeDefined();
 		expect(o.setThresholds).toBeDefined();
 		expect(o.checkThreshold).toBeDefined();
 		expect(o.addMessage).toBeDefined();
@@ -56,39 +54,6 @@ describe('lib/index.js', function() {
 		expect(o.addPerfData).toBeDefined();
 		expect(o.getReturnMessage).toBeDefined();
 		expect(o.nagiosExit).toBeDefined();
-		expect(o.get).toBeDefined();
-	});
-
-	describe('invoked with argument --version,', function() {
-		var oldArgv;
-		beforeEach(function() {
-			oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '--version' ];
-		});
-		afterEach(function() {
-			process.argv = oldArgv;
-		});
-		it('calls method parseArgs()', function() {
-			o.parseArgs();
-			expect(outStr).toContain('0.0.1');
-			expect(process.exit).toHaveBeenCalledWith(0);
-		});
-	});
-
-	describe('invoked with argument --usage,', function() {
-		var oldArgv;
-		beforeEach(function() {
-			oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '--usage' ];
-		});
-		afterEach(function() {
-			process.argv = oldArgv;
-		});
-		it('calls method parseArgs()', function() {
-			o.parseArgs();
-			expect(outStr).toContain('Usage:');
-			expect(process.exit).toHaveBeenCalledWith(0);
-		});
 	});
 
 	describe('invoked with argument --help,', function() {
@@ -101,16 +66,17 @@ describe('lib/index.js', function() {
 			expect(process.exit).toHaveBeenCalledWith(0);
 			process.argv = oldArgv;
 		});
-		it('calls method parseArgs()', function() {
-			o.parseArgs();
-			expect(outStr).toContain('Print detailed help screen');
-		});
-		it('calls method addArg() then parseArgs()', function() {
-			o.addArg({
-				'spec' : 'm|myArg',
-				'help' : 'my argument'
+		it('should print help', function() {
+			o = new F({
+				args : [ [ 'h', 'help', 'display this help' ] ]
 			});
-			o.parseArgs();
+			expect(outStr).toContain('display this help');
+		});
+		it('should display other arguments when specified', function() {
+			o = new F({
+				args : [ [ 'h', 'help', 'display this help' ],
+						[ 'm', 'myArg', 'my argument' ] ]
+			});
 			expect(outStr).toContain('my argument');
 		});
 	});
@@ -174,34 +140,33 @@ describe('lib/index.js', function() {
 				});
 			});
 		});
-		it('calls method addArg() with a required argument then parseArgs()',
-				function() {
-					o.addArg({
-						'spec' : 'm|myArg',
-						'help' : 'my argument',
-						'required' : true
-					});
-					o.parseArgs();
-					expect(process.exit).toHaveBeenCalledWith(3);
-					expect(outStr).toContain('missing argument --myArg');
-				});
+		it('contains a required argument', function() {
+			var oldArgv = process.argv;
+			process.argv = [ 'node', __filename, '-m' ];
+			o = new F({
+				args : [ [ 'h', 'help', 'display this help' ],
+						[ 'm', 'myArg=ARG', 'my argument' ] ]
+			});
+			expect(process.exit).toHaveBeenCalledWith(1);
+			expect(outStr).toContain('option myArg need argument');
+			process.argv = oldArgv;
+		});
 	});
-	describe('invoked with a valid argument,', function() {
+	describe('invoked with a valid option,', function() {
 		var oldArgv;
 		beforeEach(function() {
 			oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '-m', 3 ];
+			process.argv = [ 'node', __filename, '-m', 'bb' ];
 		});
 		afterEach(function() {
 			process.argv = oldArgv;
 		});
-		it('calls method addArg() then parseArgs()', function() {
-			o.addArg({
-				'spec' : 'm|myArg=<INTEGER>',
-				'help' : 'my argument'
+		it('should be able to retrieve the option', function() {
+			o = new F({
+				args : [ [ 'h', 'help', 'display this help' ],
+						[ 'm', 'myArg=ARG', 'my argument' ] ]
 			});
-			o.parseArgs();
-			expect(o.get('myArg')).toBe('3');
+			expect(o.parsedArgs.options.myArg).toBe('bb');
 		});
 	});
 
@@ -214,16 +179,10 @@ describe('lib/index.js', function() {
 		afterEach(function() {
 			process.argv = oldArgv;
 		});
-		it('calls method parseArgs()', function() {
-			o.parseArgs();
-			expect(process.exit).toHaveBeenCalledWith(3);
-			expect(outStr).toContain('invalid argument -m');
-		});
-		it('sets allowUnexpectedArgs then calls method parseArgs()', function() {
-			o.opts.allowUnexpectedArgs = true;
-			o.parseArgs();
-			expect(process.exit).not.toHaveBeenCalledWith(3);
-			delete o.opts.allowUnexpectedArgs;
+		it('should error out with invalid option message', function() {
+			o = new F({});
+			expect(process.exit).toHaveBeenCalledWith(1);
+			expect(outStr).toContain('invalid option m');
 		});
 	});
 });
