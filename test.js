@@ -4,38 +4,22 @@ var Plugin = require('./lib/index.js');
 var o = new Plugin({
 	// shortName is used in output
 	shortName : 'wget_http',
-	version : '0.0.1'
+	args : [ [ '', 'wget=<STRING>', 'Arguments passed to wget' ],
+			[ 'm', 'match=<STRING>', 'String response body must match' ],
+			[ 'w', 'warning=<STRING>', 'Warning threshold' ],
+			[ 'c', 'critical=<STRING>', 'Critical threshold' ],
+			[ 'h', 'help', 'display this help' ] ]
 });
-// add expected arguments
-o.addArg({
-	'spec' : 'wget=<STRING>',
-	'help' : 'Arguments passed to wget',
-	'required' : true
-});
-o.addArg({
-	'spec' : 'm|match=<STRING>',
-	'help' : 'String response body must match'
-});
-o.addArg({
-	'spec' : 'w|warning=<STRING>',
-	'help' : 'Warning threshold'
-});
-o.addArg({
-	'spec' : 'c|critical=<STRING>',
-	'help' : 'Critical threshold'
-});
-// parse and validate program arguments
-o.parseArgs();
 // set monitor thresholds
 o.setThresholds({
-	'critical' : o.get('critical') || 2,
-	'warning' : o.get('warning') || 0.2
+	'critical' : o.parsedArgs.options.critical || 2,
+	'warning' : o.parsedArgs.options.warning || 0.2
 });
 
 // run the check - replace with your own business logic
 var exec = require('child_process').exec;
 var before = new Date().getTime();
-exec('wget -qO- ' + o.get('wget'), function(error, stdout, stderr) {
+exec('wget -qO- ' + o.parsedArgs.options.wget, function(error, stdout, stderr) {
 	var after = new Date().getTime();
 	var diff = (after - before) / 1000;
 
@@ -47,8 +31,9 @@ exec('wget -qO- ' + o.get('wget'), function(error, stdout, stderr) {
 	o.addMessage(state, stdout.length + ' bytes in ' + diff
 			+ ' seconds response time.');
 	// use get() method to retrieved parsed program arguments
-	if (o.get('match') && stdout.indexOf(o.get('match')) === -1) {
-		o.addMessage(o.states.CRITICAL, o.get('match') + ' not found');
+	if (o.parsedArgs.options.match
+			&& stdout.indexOf(o.parsedArgs.options.match) === -1) {
+		o.addMessage(o.states.CRITICAL, o.parsedArgs.options.match + ' not found');
 	}
 	// Add performance data
 	o.addPerfData({
