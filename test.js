@@ -1,14 +1,16 @@
 'use strict';
-// add a command line options parser; you can substitute with your own favorite
+// add a command line options parser; 
+// you can substitute with your own favorite npm module
 var program = require('commander');
 program
-.version('0.0.1')
-.usage('[Options] -- <arguments passed to wget>')
-.option('-m, --match <string>', 'String response body must match')
-.option('-w, --warning <float>', 'Warning threshold')
-.option('-c, --critical <float>', 'Critical threshold')
-.parse(process.argv);
+	.version('0.0.1')
+	.usage('[Options] -- <arguments passed to wget>')
+	.option('-m, --match <string>', 'String response body must match')
+	.option('-w, --warning <float>', 'Warning threshold')
+	.option('-c, --critical <float>', 'Critical threshold')
+	.parse(process.argv);
 
+// validate mandatory arguments
 if (program.args.length == 0) {
 	console.log('missing arguments passed to wget');
 	program.help();
