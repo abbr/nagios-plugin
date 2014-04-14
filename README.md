@@ -94,6 +94,10 @@ $ node test.js --help
     -m, --match <string>    String response body must match
     -w, --warning <float>   Warning threshold
     -c, --critical <float>  Critical threshold
+$ node test.js
+missing arguments passed to wget
+  Usage: ... <same as --help>
+
 ```
 
 ## API
