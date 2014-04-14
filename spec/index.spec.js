@@ -56,31 +56,6 @@ describe('lib/index.js', function() {
 		expect(o.nagiosExit).toBeDefined();
 	});
 
-	describe('invoked with argument --help,', function() {
-		var oldArgv;
-		beforeEach(function() {
-			oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '--help' ];
-		});
-		afterEach(function() {
-			expect(process.exit).toHaveBeenCalledWith(0);
-			process.argv = oldArgv;
-		});
-		it('should print help', function() {
-			o = new F({
-				args : [ [ 'h', 'help', 'display this help' ] ]
-			});
-			expect(outStr).toContain('display this help');
-		});
-		it('should display other arguments when specified', function() {
-			o = new F({
-				args : [ [ 'h', 'help', 'display this help' ],
-						[ 'm', 'myArg', 'my argument' ] ]
-			});
-			expect(outStr).toContain('my argument');
-		});
-	});
-
 	describe('invoked with no arguments,', function() {
 		it('calls method setThresholds() twice', function() {
 			o.setThresholds({
@@ -139,50 +114,6 @@ describe('lib/index.js', function() {
 					expect(outStr.trim()).toBe(msg);
 				});
 			});
-		});
-		it('contains a required argument', function() {
-			var oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '-m' ];
-			o = new F({
-				args : [ [ 'h', 'help', 'display this help' ],
-						[ 'm', 'myArg=ARG', 'my argument' ] ]
-			});
-			expect(process.exit).toHaveBeenCalledWith(1);
-			expect(outStr).toContain('option myArg need argument');
-			process.argv = oldArgv;
-		});
-	});
-	describe('invoked with a valid option,', function() {
-		var oldArgv;
-		beforeEach(function() {
-			oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '-m', 'bb' ];
-		});
-		afterEach(function() {
-			process.argv = oldArgv;
-		});
-		it('should be able to retrieve the option', function() {
-			o = new F({
-				args : [ [ 'h', 'help', 'display this help' ],
-						[ 'm', 'myArg=ARG', 'my argument' ] ]
-			});
-			expect(o.parsedArgs.options.myArg).toBe('bb');
-		});
-	});
-
-	describe('invoked with an invalid argument,', function() {
-		var oldArgv;
-		beforeEach(function() {
-			oldArgv = process.argv;
-			process.argv = [ 'node', __filename, '-m', 3 ];
-		});
-		afterEach(function() {
-			process.argv = oldArgv;
-		});
-		it('should error out with invalid option message', function() {
-			o = new F({});
-			expect(process.exit).toHaveBeenCalledWith(1);
-			expect(outStr).toContain('invalid option m');
 		});
 	});
 });
