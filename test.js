@@ -1,36 +1,38 @@
 'use strict';
-// add a command line options parser; 
+// add a command line parser;
 // you can substitute with your own favorite npm module
-var program = require('commander');
-program
-	.version('0.0.1')
-	.usage('[Options] -- <arguments passed to wget>')
-	.option('-m, --match <string>', 'String response body must match')
-	.option('-w, --warning <float>', 'Warning threshold')
-	.option('-c, --critical <float>', 'Critical threshold')
-	.parse(process.argv);
-
+var getOpt = require('node-getopt')
+.create([ [ 'm', 'match=<STRING>', 'String response body must match' ]
+        , [ 'w', 'warning=<STRING>', 'Warning threshold' ]
+        , [ 'c', 'critical=<STRING>', 'Critical threshold' ]
+        , [ 'h', 'help', 'display this help' ] ])
+.bindHelp();
+getOpt.setHelp('Usage: node test.js [Options] -- '
+		+ '<arguments passed to wget>\nOptions:\n[[OPTIONS]]');
+var args = getOpt.parseSystem();
 // validate mandatory arguments
-if (program.args.length == 0) {
-	console.log('missing arguments passed to wget');
-	program.help();
+if (args.argv.length == 0) {
+	console.log('missing required param');
+	getOpt.showHelp();
+	process.exit(3);
 }
-// create a new plugin object with optional initialization parameters
+
 var Plugin = require('./lib/index.js');
+// create a new plugin object with optional initialization parameters
 var o = new Plugin({
 	// shortName is used in output
 	shortName : 'wget_http'
 });
 // set monitor thresholds
 o.setThresholds({
-	'critical' : program.critical || 2,
-	'warning' : program.warning || 0.2
+	'critical' : args.options.critical || 2,
+	'warning' : args.options.warning || 0.2
 });
 
 // run the check - replace with your own business logic
 var exec = require('child_process').exec;
 var before = new Date().getTime();
-exec('wget -qO- ' + program.args.join(' '), function(error, stdout, stderr) {
+exec('wget -qO- ' + args.argv.join(' '), function(error, stdout, stderr) {
 	var after = new Date().getTime();
 	var diff = (after - before) / 1000;
 
@@ -39,10 +41,11 @@ exec('wget -qO- ' + program.args.join(' '), function(error, stdout, stderr) {
 	var state = o.checkThreshold(diff);
 	// Add message for later output. Multiple messages
 	// in the same state are concatenated at output
-	o.addMessage(state, stdout.length + ' bytes in ' + diff + ' seconds response time.');
+	o.addMessage(state, stdout.length + ' bytes in ' + diff
+			+ ' seconds response time.');
 	// use get() method to retrieved parsed program arguments
-	if (program.match && stdout.indexOf(program.match) === -1) {
-		o.addMessage(o.states.CRITICAL, program.match + ' not found');
+	if (args.options.match && stdout.indexOf(args.options.match) === -1) {
+		o.addMessage(o.states.CRITICAL, args.options.match + ' not found');
 	}
 	// Add performance data
 	o.addPerfData({
