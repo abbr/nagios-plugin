@@ -1,7 +1,7 @@
 nagios-plugin
 =============
 
-Toolkit facilitates writing Nagios plugins in Node.js. It is a mimic of Perl [Nagios::Plugin](http://search.cpan.org/~tonvoon/Nagios-Plugin-0.36/lib/Nagios/Plugin.pm) module, barring the command line parsing function in favor of many existing npm modules such as [node-getopt](https://github.com/jiangmiao/node-getopt) or [commander.js](https://github.com/visionmedia/commander.js).
+Toolkit facilitates writing Nagios plugins in Node.js. It is a mimic of Perl [Nagios::Plugin](http://search.cpan.org/~tonvoon/Nagios-Plugin-0.36/lib/Nagios/Plugin.pm) module, barring the command line parsing functions in favor of many existing npm modules such as [node-getopt](https://github.com/jiangmiao/node-getopt) or [commander.js](https://github.com/visionmedia/commander.js).
 
 ## Annotated Working Example
 Following script implements a plugin to check web sites using external program `wget`. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to currently chosen IP failed at TCP socket layer.
