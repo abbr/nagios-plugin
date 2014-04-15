@@ -12,7 +12,7 @@ getOpt.setHelp('Usage: node test.js [Options] -- '
 var args = getOpt.parseSystem();
 // validate mandatory arguments
 if (args.argv.length == 0) {
-	console.log('missing required param');
+	console.log('missing arguments passed to wget');
 	getOpt.showHelp();
 	process.exit(3);
 }
