@@ -6,7 +6,7 @@ Toolkit facilitates writing Nagios plugins in Node.js. It is a mimic of Perl [Na
 ## Annotated Working Example
 Following script implements a plugin to check web sites using external program `wget`. This plugin addresses some defects in Nagios built-in plugin check_http, for instance unable to failover to next IP when a web site is mapped to multiple IPs and attempts to connect to currently chosen IP failed at TCP socket layer.
 
-test.js:
+wget-http.js:
 ```
 'use strict';
 // add a command line parser;
@@ -82,18 +82,18 @@ exec('wget -qO- ' + args.argv.join(' '), function(error, stdout, stderr) {
 ```
 Outputs
 ```
-$ node test.js -- http://www.google.com
+$ node wget-http.js -- http://www.google.com
 WGET_HTTP WARNING - 11815 bytes in 0.571 seconds response time.|time=0.571s;0.2;2;0; size=11815B;;;0;
-$ node test.js --match=unicorn -- http://www.google.com
+$ node wget-http.js --match=unicorn -- http://www.google.com
 WGET_HTTP CRITICAL - unicorn not found|time=0.467s;0.2;2;0; size=11763B;;;0;
-$ node test.js --help 
+$ node wget-http.js --help 
 Usage: node test.js [Options] -- <arguments passed to wget>
 Options:
   -m, --match=<STRING>     String response body must match
   -w, --warning=<STRING>   Warning threshold
   -c, --critical=<STRING>  Critical threshold
   -h, --help               display this help
-$ node test.js
+$ node wget-http.js
 missing arguments passed to wget
 Usage: ... <same as --help>
 
