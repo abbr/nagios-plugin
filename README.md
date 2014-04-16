@@ -17,7 +17,7 @@ var getOpt = require('node-getopt')
         , [ 'c', 'critical=<STRING>', 'Critical threshold' ]
         , [ 'h', 'help', 'display this help' ] ])
 .bindHelp();
-getOpt.setHelp('Usage: node test.js [Options] -- '
+getOpt.setHelp('Usage: node wget-http.js [Options] -- '
 		+ '<arguments passed to wget>\nOptions:\n[[OPTIONS]]');
 var args = getOpt.parseSystem();
 // validate mandatory arguments
@@ -87,7 +87,7 @@ WGET_HTTP WARNING - 11815 bytes in 0.571 seconds response time.|time=0.571s;0.2;
 $ node wget-http.js --match=unicorn -- http://www.google.com
 WGET_HTTP CRITICAL - unicorn not found|time=0.467s;0.2;2;0; size=11763B;;;0;
 $ node wget-http.js --help 
-Usage: node test.js [Options] -- <arguments passed to wget>
+Usage: node wget-http.js [Options] -- <arguments passed to wget>
 Options:
   -m, --match=<STRING>     String response body must match
   -w, --warning=<STRING>   Warning threshold
