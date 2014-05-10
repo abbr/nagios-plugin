@@ -42,7 +42,7 @@ exec('wget -qO- ' + args.argv.join(' '), function(error, stdout, stderr) {
 	// Add message for later output. Multiple messages
 	// in the same state are concatenated at output
 	o.addMessage(state, stdout.length + ' bytes in ' + diff
-			+ ' seconds response time.');
+			+ ' seconds response time');
 	// use get() method to retrieved parsed program arguments
 	if (args.options.match && stdout.indexOf(args.options.match) === -1) {
 		o.addMessage(o.states.CRITICAL, args.options.match + ' not found');
